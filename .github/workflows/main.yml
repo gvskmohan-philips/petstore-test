@@ -26,12 +26,38 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      # Setup python and Owasp ZAP
+      - name: setup python
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.10.5 
+      - name: Install python dependencies
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          python -m pip install --upgrade pip
+          pip install requests python-owasp-zap-v2.10.0           
+      - name: Install OWASP ZAP
+        run: |
+          mkdir -p ./zap 
+          cd ./zap
+          wget https://github.com/zaproxy/zaproxy/releases/download/2.10.0/ZAP_2.10.0_Linux.tar.gz
+          tar -xzvf ZAP_2.10.0_Linux.tar.gz
+          rm ZAP_2.10.0_Linux.tar.gz
+          chmod +x start-zap
+          chmod +x start-gui-zap
+          chmod +x stop zap
+      - name: Run ZAP
+        run: ./zap/ZAP_2.10.0/zap.sh -daemon -host 0.0.0.0 -port 8090 
+      - name: Sleep 
+        run: sleep 60 
+        
+        
+        
+        
+        
+       
+          
+          
+          
+          
+          
