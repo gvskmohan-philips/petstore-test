@@ -9,7 +9,7 @@ jobs:
     name: Build
     runs-on: ubuntu-20.04
     steps:
-    - name: OWASP ZAP API Scan
+    - name: OWASP ZAP API Scan test
   # You may pin to the exact commit or the version.
   # uses: zaproxy/action-api-scan@505165281beb4e371b7b86ba0e62e6d2f7ef8746
       uses: zaproxy/action-api-scan@v0.1.1
