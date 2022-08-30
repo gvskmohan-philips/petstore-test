@@ -17,20 +17,24 @@ jobs:
     runs-on: ubuntu-20.04
     # runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    step1:
+       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+       name: checkout
        uses: actions/checkout@v3
-      # Setup python and Owasp ZAP
+       # Setup python and Owasp ZAP
+    step2:   
        name: setup python
        uses: actions/setup-python@v4
-        with:
-          python-version: 3.10.5 
-       name: Install python dependencies
-        run: |
+         with:
+         python-version:3.10.5 
+    step3:    
+       name3: Install python dependencies
+       run: |
           python -m pip install --upgrade pip
-          pip install requests python-owasp-zap-v2.10.0           
-       name: Install OWASP ZAP
-        run: |
+          pip install requests python-owasp-zap-v2.10.0 
+    step4:     
+       name4: Install OWASP ZAP
+       run: |
           mkdir -p ./zap 
           cd ./zap
           wget https://github.com/zaproxy/zaproxy/releases/download/2.10.0/ZAP_2.10.0_Linux.tar.gz
@@ -39,10 +43,12 @@ jobs:
           chmod +x start-zap
           chmod +x start-gui-zap
           chmod +x stop zap
+    step5:
        name: Run ZAP
-        run: ./zap/ZAP_2.10.0/zap.sh -daemon -host 0.0.0.0 -port 8090 
+       run: ./zap/ZAP_2.10.0/zap.sh -daemon -host 0.0.0.0 -port 8090 
+    step6:
        name: Sleep 
-        run: sleep 60 
+       run: sleep 60 
         
         
         
