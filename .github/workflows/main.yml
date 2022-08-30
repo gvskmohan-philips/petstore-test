@@ -1,61 +1,26 @@
-# This is a basic workflow to help you get started with Actions
-
-name: ZAP Scan petstore
-
-# Controls when the workflow will run
+name: build
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
-  #  pull_request:
-  #  branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  # workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    branches:
+      - main
+  pull_request:
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-18.04
-    # runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    name: Build
+    runs-on: ubuntu-20.04
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+    - name: OWASP ZAP API Scan test
+  # You may pin to the exact commit or the version.
+  # uses: zaproxy/action-api-scan@505165281beb4e371b7b86ba0e62e6d2f7ef8746
+      uses: zaproxy/action-api-scan@v0.1.1
+      with:
+  # Target URL
+        target: https://petstore.swagger.io/v2/swagger.json
+  
+   
+    
 
-      # Setup python and Owasp ZAP
-      - name: setup python
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.10.5 
-      - name: Install python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests python-owasp-zap-v2.10.0           
-      - name: Install OWASP ZAP
-        run: |
-          mkdir -p ./zap 
-          cd ./zap
-          wget https://github.com/zaproxy/zaproxy/releases/download/2.10.0/ZAP_2.10.0_Linux.tar.gz
-          tar -xzvf ZAP_2.10.0_Linux.tar.gz
-          rm ZAP_2.10.0_Linux.tar.gz
-          chmod +x start-zap
-          chmod +x start-gui-zap
-          chmod +x stop zap
-      - name: Run ZAP
-        run: ./zap/ZAP_2.10.0/zap.sh -daemon -host 0.0.0.0 -port 8090 
-      - name: Sleep 
-        run: sleep 60 
-        
-        
-        
-        
-        
-       
+
           
           
           
